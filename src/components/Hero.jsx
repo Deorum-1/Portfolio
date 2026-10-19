@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Sparkles,
   ArrowRight,
@@ -15,12 +15,38 @@ import {
   ChevronRight
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import gsap from 'gsap';
 import { personalInfo } from '../data/portfolioData';
 import { GithubIcon, LinkedinIcon } from './Icons';
 
 export default function Hero({ onOpenResume }) {
   const [copiedEmail, setCopiedEmail] = useState(false);
-  const [activeTab, setActiveTab] = useState('profile');
+  const heroRef = useRef(null);
+  const terminalRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Staggered reveal for Hero left column elements
+      gsap.fromTo(
+        '.gsap-hero-elem',
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.9, stagger: 0.12, ease: 'power3.out' }
+      );
+
+      // Subtle 3D float for the interactive terminal card
+      if (terminalRef.current) {
+        gsap.to(terminalRef.current, {
+          y: -10,
+          duration: 3,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut'
+        });
+      }
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(personalInfo.email);
@@ -38,7 +64,7 @@ export default function Hero({ onOpenResume }) {
   };
 
   return (
-    <section className="relative min-h-[92vh] pt-32 pb-20 flex items-center justify-center overflow-hidden">
+    <section ref={heroRef} className="relative min-h-[92vh] pt-32 pb-20 flex items-center justify-center overflow-hidden">
       {/* Background Ambient Glows */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[450px] bg-gradient-to-tr from-cyan-600/15 via-indigo-600/15 to-purple-600/10 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse-slow"></div>
       <div className="absolute top-12 left-10 w-72 h-72 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none -z-10"></div>
@@ -53,7 +79,7 @@ export default function Hero({ onOpenResume }) {
           {/* Left Column: Bio & Core Pitch */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
             {/* Status Pill */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-700/80 shadow-inner mb-6">
+            <div className="gsap-hero-elem inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-700/80 shadow-inner mb-6">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -64,7 +90,7 @@ export default function Hero({ onOpenResume }) {
             </div>
 
             {/* Main Heading */}
-            <h1 className="text-4xl sm:text-5xl xl:text-6xl font-extrabold tracking-tight text-white leading-[1.12] mb-5">
+            <h1 className="gsap-hero-elem text-4xl sm:text-5xl xl:text-6xl font-extrabold tracking-tight text-white leading-[1.12] mb-5">
               Hi, I'm <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400">
                 Sokunbi Oluwaferanmi
@@ -72,13 +98,13 @@ export default function Hero({ onOpenResume }) {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-lg sm:text-xl font-medium text-slate-300 mb-4 flex items-center gap-2">
+            <p className="gsap-hero-elem text-lg sm:text-xl font-medium text-slate-300 mb-4 flex items-center gap-2">
               <span className="text-cyan-400 font-mono">&gt;</span>
               Software Developer & Frontend Engineer
             </p>
 
             {/* Descriptive Paragraph from Resume */}
-            <p className="text-base text-slate-400 max-w-2xl leading-relaxed mb-8">
+            <p className="gsap-hero-elem text-base text-slate-400 max-w-2xl leading-relaxed mb-8">
               Computer Science graduate (B.Sc., 2026) building responsive, performant web applications with{' '}
               <span className="text-slate-200 font-semibold">React.js</span>,{' '}
               <span className="text-slate-200 font-semibold">Next.js</span>,{' '}
@@ -88,7 +114,7 @@ export default function Hero({ onOpenResume }) {
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto mb-10">
+            <div className="gsap-hero-elem flex flex-wrap items-center gap-4 w-full sm:w-auto mb-10">
               <a
                 href="#projects"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl font-semibold text-slate-950 bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:-translate-y-0.5 transition-all"
@@ -107,7 +133,7 @@ export default function Hero({ onOpenResume }) {
             </div>
 
             {/* Quick Contact & Social Strip */}
-            <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-slate-800/80 w-full text-sm text-slate-400">
+            <div className="gsap-hero-elem flex flex-wrap items-center gap-3 pt-4 border-t border-slate-800/80 w-full text-sm text-slate-400">
               <span className="text-xs uppercase tracking-wider text-slate-500 font-mono">Connect:</span>
               
               <a
@@ -153,7 +179,10 @@ export default function Hero({ onOpenResume }) {
 
           {/* Right Column: Interactive Developer Terminal / Code Card */}
           <div className="lg:col-span-5 flex justify-center">
-            <div className="w-full max-w-lg glass-panel rounded-2xl p-5 border border-slate-700/60 shadow-2xl relative overflow-hidden group">
+            <div
+              ref={terminalRef}
+              className="w-full max-w-lg glass-panel rounded-2xl p-5 border border-slate-700/60 shadow-2xl relative overflow-hidden group"
+            >
               {/* Top Bar with mock macOS window buttons */}
               <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-slate-800">
                 <div className="flex items-center gap-2">
@@ -167,7 +196,7 @@ export default function Hero({ onOpenResume }) {
                 </div>
                 <div className="text-[11px] text-emerald-400 font-mono flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  ready
+                  gsap active
                 </div>
               </div>
 
