@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, FileText, Send } from 'lucide-react';
+import { Menu, X, FileText, Send, Sparkles } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 
 export default function Navbar({ onOpenResume }) {
@@ -18,6 +18,7 @@ export default function Navbar({ onOpenResume }) {
     { label: 'About', href: '#about' },
     { label: 'Skills', href: '#skills' },
     { label: 'Projects', href: '#projects' },
+    { label: 'AI Lab', href: '#ai-lab', isBadge: true },
     { label: 'Experience', href: '#experience' },
     { label: 'Education & Certs', href: '#education' },
     { label: 'Contact', href: '#contact' },
@@ -62,9 +63,14 @@ export default function Navbar({ onOpenResume }) {
               <a
                 key={link.label}
                 href={link.href}
-                className="px-3 py-1.5 text-sm font-medium text-slate-300 hover:text-cyan-400 hover:bg-slate-800/50 rounded-lg transition-all"
+                className="px-3 py-1.5 text-sm font-medium text-slate-300 hover:text-cyan-400 hover:bg-slate-800/50 rounded-lg transition-all flex items-center gap-1.5"
               >
-                {link.label}
+                <span>{link.label}</span>
+                {link.isBadge && (
+                  <span className="px-1.5 py-0.2 rounded-full text-[9px] font-mono bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                    NEW
+                  </span>
+                )}
               </a>
             ))}
           </nav>
@@ -109,9 +115,14 @@ export default function Navbar({ onOpenResume }) {
                   key={link.label}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-cyan-400 hover:bg-slate-800/70 rounded-lg transition-colors"
+                  className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-cyan-400 hover:bg-slate-800/70 rounded-lg transition-colors flex items-center justify-between"
                 >
-                  {link.label}
+                  <span>{link.label}</span>
+                  {link.isBadge && (
+                    <span className="px-1.5 py-0.2 rounded-full text-[10px] font-mono bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                      NEW
+                    </span>
+                  )}
                 </a>
               ))}
             </div>
