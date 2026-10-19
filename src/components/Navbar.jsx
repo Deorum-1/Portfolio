@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, FileText, Send, Sparkles } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
+import ThemeToggle from './ThemeToggle';
 
 export default function Navbar({ onOpenResume }) {
   const [scrolled, setScrolled] = useState(false);
@@ -75,8 +76,10 @@ export default function Navbar({ onOpenResume }) {
             ))}
           </nav>
 
-          {/* Action CTAs */}
-          <div className="hidden sm:flex items-center gap-3">
+          {/* Action CTAs & Theme Switcher */}
+          <div className="hidden sm:flex items-center gap-2.5">
+            <ThemeToggle />
+
             <button
               onClick={onOpenResume}
               className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold uppercase tracking-wider text-slate-200 bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 hover:border-cyan-500/40 rounded-xl transition-all shadow-sm cursor-pointer"
@@ -94,8 +97,9 @@ export default function Navbar({ onOpenResume }) {
             </a>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu & Theme Toggle */}
           <div className="flex md:hidden items-center gap-2">
+            <ThemeToggle />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 text-slate-300 hover:text-white bg-slate-800/60 border border-slate-700/60 rounded-lg"
