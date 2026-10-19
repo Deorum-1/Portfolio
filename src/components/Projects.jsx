@@ -6,13 +6,21 @@ import {
   ArrowUpRight,
   CheckCircle2,
   MonitorPlay,
-  Eye
+  Eye,
+  Laptop
 } from 'lucide-react';
 import { projectsData } from '../data/portfolioData';
 import { GithubIcon } from './Icons';
+import ProjectPreviewModal from './ProjectPreviewModal';
 
 export default function Projects() {
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [previewProject, setPreviewProject] = useState(null);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
+  const handleOpenPreview = (project) => {
+    setPreviewProject(project);
+    setIsPreviewOpen(true);
+  };
 
   return (
     <section id="projects" className="py-24 relative">
@@ -65,22 +73,33 @@ export default function Projects() {
 
                   <div className="flex items-center gap-2">
                     {project.liveUrl !== '#' && (
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-semibold transition-all hover:scale-105"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5" />
-                        <span>Live Demo</span>
-                      </a>
+                      <>
+                        <button
+                          onClick={() => handleOpenPreview(project)}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-semibold transition-all hover:scale-105 cursor-pointer"
+                          title="Interactive Device Preview"
+                        >
+                          <Laptop className="w-3.5 h-3.5" />
+                          <span>Live Preview</span>
+                        </button>
+
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition-colors"
+                          title="Open live website in new tab"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                        </a>
+                      </>
                     )}
                     <a
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition-colors"
-                      title="View GitHub"
+                      title="View GitHub repository"
                     >
                       <GithubIcon className="w-4 h-4" />
                     </a>
@@ -126,24 +145,29 @@ export default function Projects() {
 
                 {project.liveUrl !== '#' && (
                   <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono">
-                    <span className="text-slate-500 truncate max-w-[240px]">
+                    <span className="text-slate-500 truncate max-w-[200px] sm:max-w-[260px]">
                       {project.liveUrl.replace('https://', '')}
                     </span>
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-cyan-400 hover:underline flex items-center gap-1 font-medium"
+                    <button
+                      onClick={() => handleOpenPreview(project)}
+                      className="text-cyan-400 hover:underline flex items-center gap-1 font-medium cursor-pointer"
                     >
-                      <span>Launch app</span>
+                      <span>Interactive device preview</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />
-                    </a>
+                    </button>
                   </div>
                 )}
               </div>
             </div>
           ))}
         </div>
+
+        {/* Project Preview Modal */}
+        <ProjectPreviewModal
+          project={previewProject}
+          isOpen={isPreviewOpen}
+          onClose={() => setIsPreviewOpen(false)}
+        />
 
       </div>
     </section>
