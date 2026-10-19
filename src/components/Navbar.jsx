@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, FileText, Send, Sparkles } from 'lucide-react';
+import { Menu, X, FileText, Send, Sparkles, Search } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 import ThemeToggle from './ThemeToggle';
 
-export default function Navbar({ onOpenResume }) {
+export default function Navbar({ onOpenResume, onOpenCommand }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -76,29 +76,49 @@ export default function Navbar({ onOpenResume }) {
             ))}
           </nav>
 
-          {/* Action CTAs & Theme Switcher */}
-          <div className="hidden sm:flex items-center gap-2.5">
+          {/* Action CTAs, Search & Theme Switcher */}
+          <div className="hidden sm:flex items-center gap-2">
+            {/* Quick Command Trigger */}
+            <button
+              onClick={onOpenCommand}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs text-slate-400 hover:text-slate-200 bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl transition-all cursor-pointer font-mono"
+              title="Search and commands (Ctrl+K)"
+            >
+              <Search className="w-3.5 h-3.5 text-cyan-400" />
+              <span className="text-[11px]">Search</span>
+              <kbd className="px-1 py-0.2 text-[9px] bg-slate-950 border border-slate-700 rounded text-slate-400">
+                ⌘K
+              </kbd>
+            </button>
+
             <ThemeToggle />
 
             <button
               onClick={onOpenResume}
-              className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold uppercase tracking-wider text-slate-200 bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 hover:border-cyan-500/40 rounded-xl transition-all shadow-sm cursor-pointer"
+              className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-slate-200 bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 hover:border-cyan-500/40 rounded-xl transition-all shadow-sm cursor-pointer"
             >
-              <FileText className="w-4 h-4 text-cyan-400" />
+              <FileText className="w-3.5 h-3.5 text-cyan-400" />
               <span>Resume</span>
             </button>
 
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-950 bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 rounded-xl transition-all shadow-md shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-slate-950 bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 rounded-xl transition-all shadow-md shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5"
             >
-              <Send className="w-3.5 h-3.5" />
+              <Send className="w-3 h-3" />
               <span>Let's Talk</span>
             </a>
           </div>
 
           {/* Mobile Menu & Theme Toggle */}
           <div className="flex md:hidden items-center gap-2">
+            <button
+              onClick={onOpenCommand}
+              className="p-2 text-slate-400 hover:text-white bg-slate-900 border border-slate-800 rounded-lg"
+              title="Search"
+            >
+              <Search className="w-4 h-4 text-cyan-400" />
+            </button>
             <ThemeToggle />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
