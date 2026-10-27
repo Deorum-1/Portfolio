@@ -7,10 +7,6 @@ import {
   Layers,
   Sparkles,
   ExternalLink,
-  Github,
-  Linkedin,
-  Palette,
-  Volume2,
   X,
   ArrowRight,
   Terminal,
@@ -18,8 +14,7 @@ import {
   Briefcase,
   GraduationCap
 } from 'lucide-react';
-import confetti from 'canvas-confetti';
-import { personalInfo, projectsData } from '../data/portfolioData';
+import { personalInfo } from '../data/portfolioData';
 import { GithubIcon, LinkedinIcon } from './Icons';
 import { playPopSound } from '../utils/audio';
 
